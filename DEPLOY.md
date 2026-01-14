@@ -13,13 +13,20 @@
 
 ### 3. Configure Backend
 
+**PENTING**: Di bagian "Configure Project", klik **"Edit"** atau scroll ke bawah
+
 **Project Name**: `aegis-ai-backend`
 
-**Root Directory**: Kosongkan (root)
+**Root Directory**: Kosongkan (atau ketik `.`)
 
-**Framework Preset**: Other
+**Framework Preset**: Pilih **"Other"** (PENTING!)
 
-(Biarkan Build Command, Output Directory, Install Command kosong - Vercel auto-detect)
+**Build Settings**: Klik "Override" dan:
+- Build Command: Kosongkan
+- Output Directory: Kosongkan  
+- Install Command: Kosongkan
+
+(Vercel akan auto-detect Python dan `requirements.txt`)
 
 ### 4. Environment Variables (PENTING!)
 
