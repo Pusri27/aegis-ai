@@ -1,0 +1,52 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+*.env
+
+# Dependencies
+node_modules/
+venv/
+env/
+ENV/
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Testing
+coverage/
+.pytest_cache/
+htmlcov/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.sqlite
+chroma_db/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Temporary
+*.tmp
+*.bak
+.cache/
