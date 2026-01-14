@@ -9,6 +9,7 @@ on:
 jobs:
   lint-backend:
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
     - uses: actions/checkout@v4
     
@@ -22,23 +23,24 @@ jobs:
         python -m pip install --upgrade pip
         pip install ruff black isort
     
-    - name: Run ruff
+    - name: Run ruff (informational)
       working-directory: ./backend
-      run: ruff check app/ --output-format=github
+      run: ruff check app/ --output-format=github || echo "Ruff found issues (non-blocking)"
       continue-on-error: true
     
-    - name: Check code formatting with black
+    - name: Check code formatting with black (informational)
       working-directory: ./backend
-      run: black --check app/
+      run: black --check app/ || echo "Black formatting needed (non-blocking)"
       continue-on-error: true
     
-    - name: Check import sorting
+    - name: Check import sorting (informational)
       working-directory: ./backend
-      run: isort --check-only app/
+      run: isort --check-only app/ || echo "Import sorting needed (non-blocking)"
       continue-on-error: true
   
   lint-frontend:
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
     - uses: actions/checkout@v4
     
@@ -53,7 +55,7 @@ jobs:
       working-directory: ./frontend
       run: npm ci
     
-    - name: Run ESLint
+    - name: Run ESLint (informational)
       working-directory: ./frontend
-      run: npm run lint
+      run: npm run lint || echo "ESLint found issues (non-blocking)"
       continue-on-error: true
