@@ -1,58 +1,69 @@
-# 🚀 DEPLOY - 100% GRATIS
+# 🚀 DEPLOY - GRATIS 100% (No Credit Card!)
 
-## BACKEND → Render (Free Forever)
+## BACKEND → PythonAnywhere (Free Forever)
 
-### 1. Buka Render
-https://render.com
+### 1. Buka PythonAnywhere
+https://www.pythonanywhere.com
 
-Klik **"Get Started for Free"**
+Klik **"Start running Python online in less than a minute!"**
 
-Login dengan GitHub
+Klik **"Create a Beginner account"** (FREE)
 
-### 2. New Web Service
-- Klik **"New +"** → **"Web Service"**
-- Klik **"Build and deploy from a Git repository"**
-- Klik **"Connect"** di sebelah repository **"aegis-ai"**
+### 2. Buat Account
+- Username: (pilih username kamu)
+- Email: (email kamu)
+- Password: (buat password)
 
-### 3. Configure
-**Name**: `aegis-ai-backend`
+Klik **"Register"**
 
-**Root Directory**: `backend`
+### 3. Open Console
+Setelah login, klik tab **"Consoles"**
 
-**Runtime**: `Python 3`
+Klik **"Bash"**
 
-**Build Command**: 
-```
-pip install -r requirements.txt
-```
-
-**Start Command**:
-```
-uvicorn app.main:app --host 0.0.0.0 --port $PORT
+### 4. Clone Repository
+Di console, ketik:
+```bash
+git clone https://github.com/Pusri27/aegis-ai.git
+cd aegis-ai/backend
+pip3 install --user -r requirements.txt
 ```
 
-**Instance Type**: Pilih **"Free"**
+### 5. Setup Web App
+- Klik tab **"Web"**
+- Klik **"Add a new web app"**
+- Domain: `yourusername.pythonanywhere.com` (gratis)
+- Python version: **Python 3.10**
+- Framework: **Manual configuration**
 
-### 4. Environment Variables
-Klik **"Advanced"**, tambahkan 3 variables:
+### 6. Configure WSGI
+Klik link **"WSGI configuration file"**
 
+Hapus semua isi file, ganti dengan:
+```python
+import sys
+import os
+
+path = '/home/yourusername/aegis-ai/backend'
+if path not in sys.path:
+    sys.path.append(path)
+
+os.environ['MONGODB_URL'] = 'mongodb+srv://aegis_admin:POEFXDo5o20FFE9l@aidecision.kyppexv.mongodb.net/aegis_ai?retryWrites=true&w=majority&appName=AIDecision'
+os.environ['OPENROUTER_API_KEY'] = 'YOUR_API_KEY_HERE'
+os.environ['OPENROUTER_MODEL'] = 'anthropic/claude-3.5-sonnet'
+
+from app.main import app as application
 ```
-MONGODB_URL
-mongodb+srv://aegis_admin:POEFXDo5o20FFE9l@aidecision.kyppexv.mongodb.net/aegis_ai?retryWrites=true&w=majority&appName=AIDecision
 
-OPENROUTER_API_KEY
-(copy dari backend/.env)
+Ganti `yourusername` dengan username kamu!
+Ganti `YOUR_API_KEY_HERE` dengan API key dari `backend/.env`!
 
-OPENROUTER_MODEL
-anthropic/claude-3.5-sonnet
-```
+Save (Ctrl+S)
 
-### 5. Create Web Service
-Klik **"Create Web Service"**
+### 7. Reload
+Klik tombol **"Reload"** (hijau)
 
-Tunggu 5-10 menit (free tier lebih lama)
-
-Dapat URL: `https://aegis-ai-backend.onrender.com`
+Selesai! Backend live di: `https://yourusername.pythonanywhere.com`
 
 ---
 
@@ -74,26 +85,24 @@ Login dengan GitHub
 **Environment Variables**:
 ```
 NEXT_PUBLIC_API_URL
-https://aegis-ai-backend.onrender.com/api/v1
+https://yourusername.pythonanywhere.com/api/v1
 ```
-(Ganti dengan URL Render kamu!)
+(Ganti `yourusername` dengan username PythonAnywhere kamu!)
 
 ### 4. Deploy
 Klik **"Deploy"**
-
-Tunggu 2-3 menit
 
 ---
 
 ## ✅ SELESAI - 100% GRATIS!
 
 Frontend: `https://aegis-ai.vercel.app`
-Backend: `https://aegis-ai-backend.onrender.com`
+Backend: `https://yourusername.pythonanywhere.com`
 
-⚠️ **Catatan Render Free**:
-- Gratis selamanya
-- No credit card
-- Auto-sleep setelah 15 menit idle
-- Cold start ~30 detik (first request lambat)
+⚠️ **PythonAnywhere Free Limits**:
+- 1 web app
+- 512MB storage
+- Always-on (no sleep!)
+- Perfect untuk portfolio!
 
-Perfect untuk portfolio! 🎉
+🎉 LIVE SELAMANYA!
