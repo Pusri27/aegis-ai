@@ -1,51 +1,62 @@
-# 🚀 DEPLOY - Cara Paling Gampang
+# 🚀 DEPLOY - 100% GRATIS
 
-## BACKEND → Railway (5 Menit)
+## BACKEND → Render (Free Forever)
 
-### 1. Buka Railway
-https://railway.app
+### 1. Buka Render
+https://render.com
 
-Klik **"Login with GitHub"**
+Klik **"Get Started for Free"**
 
-### 2. New Project
-- Klik **"New Project"**
-- Klik **"Deploy from GitHub repo"**
-- Pilih **"aegis-ai"**
+Login dengan GitHub
 
-### 3. Add Variables
-Klik tab **"Variables"**, tambahkan 3 ini:
+### 2. New Web Service
+- Klik **"New +"** → **"Web Service"**
+- Klik **"Build and deploy from a Git repository"**
+- Klik **"Connect"** di sebelah repository **"aegis-ai"**
+
+### 3. Configure
+**Name**: `aegis-ai-backend`
+
+**Root Directory**: `backend`
+
+**Runtime**: `Python 3`
+
+**Build Command**: 
+```
+pip install -r requirements.txt
+```
+
+**Start Command**:
+```
+uvicorn app.main:app --host 0.0.0.0 --port $PORT
+```
+
+**Instance Type**: Pilih **"Free"**
+
+### 4. Environment Variables
+Klik **"Advanced"**, tambahkan 3 variables:
 
 ```
 MONGODB_URL
 mongodb+srv://aegis_admin:POEFXDo5o20FFE9l@aidecision.kyppexv.mongodb.net/aegis_ai?retryWrites=true&w=majority&appName=AIDecision
 
 OPENROUTER_API_KEY
-(copy dari backend/.env kamu)
+(copy dari backend/.env)
 
 OPENROUTER_MODEL
 anthropic/claude-3.5-sonnet
 ```
 
-### 4. Settings
-Klik tab **"Settings"**:
+### 5. Create Web Service
+Klik **"Create Web Service"**
 
-**Root Directory**: Ketik `backend`
+Tunggu 5-10 menit (free tier lebih lama)
 
-**Start Command**: Ketik ini:
-```
-uvicorn app.main:app --host 0.0.0.0 --port $PORT
-```
-
-### 5. Deploy
-Klik **"Deploy"**
-
-Tunggu 2-3 menit. Selesai!
-
-Kamu dapat URL: `https://aegis-ai-production.up.railway.app`
+Dapat URL: `https://aegis-ai-backend.onrender.com`
 
 ---
 
-## FRONTEND → Vercel (3 Menit)
+## FRONTEND → Vercel (Free)
 
 ### 1. Buka Vercel
 https://vercel.com
@@ -58,27 +69,31 @@ Login dengan GitHub
 - Klik **"Import"**
 
 ### 3. Configure
-**Root Directory**: Ketik `frontend`
+**Root Directory**: `frontend`
 
-**Environment Variables**: Tambahkan 1 variable:
+**Environment Variables**:
 ```
 NEXT_PUBLIC_API_URL
-https://aegis-ai-production.up.railway.app/api/v1
+https://aegis-ai-backend.onrender.com/api/v1
 ```
-(Ganti dengan URL Railway kamu!)
+(Ganti dengan URL Render kamu!)
 
 ### 4. Deploy
 Klik **"Deploy"**
 
-Tunggu 2 menit. Selesai!
+Tunggu 2-3 menit
 
 ---
 
-## ✅ SELESAI!
+## ✅ SELESAI - 100% GRATIS!
 
 Frontend: `https://aegis-ai.vercel.app`
-Backend: `https://aegis-ai-production.up.railway.app`
+Backend: `https://aegis-ai-backend.onrender.com`
 
-Buka frontend URL dan test!
+⚠️ **Catatan Render Free**:
+- Gratis selamanya
+- No credit card
+- Auto-sleep setelah 15 menit idle
+- Cold start ~30 detik (first request lambat)
 
-🎉 LIVE!
+Perfect untuk portfolio! 🎉
