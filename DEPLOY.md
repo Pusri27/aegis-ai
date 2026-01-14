@@ -19,11 +19,7 @@
 
 **Framework Preset**: Other
 
-**Build Command**: Kosongkan
-
-**Output Directory**: Kosongkan
-
-**Install Command**: `pip install -r api/requirements.txt`
+(Biarkan Build Command, Output Directory, Install Command kosong - Vercel auto-detect)
 
 ### 4. Environment Variables (PENTING!)
 
