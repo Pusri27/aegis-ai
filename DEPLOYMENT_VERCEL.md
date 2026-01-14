@@ -1,35 +1,173 @@
-# Vercel Deployment Guide
+# Vercel Full-Stack Deployment Guide
 
-## Quick Deploy to Vercel
+## Deploy Frontend + Backend to Vercel (All-in-One)
 
-### Option 1: One-Click Deploy (Recommended)
+Vercel dapat deploy **BOTH** Next.js frontend dan FastAPI backend dalam satu project!
 
-1. **Go to Vercel**: https://vercel.com
+---
+
+## 🚀 Quick Deploy
+
+### Step 1: Push to GitHub
+
+```bash
+cd /Users/pusri/Documents/last\ ai\ project/aegis-ai
+git add .
+git commit -m "feat: Add Vercel serverless backend support"
+git push origin main
+```
+
+### Step 2: Deploy to Vercel
+
+1. **Go to**: https://vercel.com
 2. **Sign in** with GitHub
-3. **Import Project**:
-   - Click "Add New" → "Project"
-   - Select `aegis-ai` repository
-   - Vercel will auto-detect Next.js
+3. **Import Project**: Select `aegis-ai` repository
+4. **Configure**:
+   - Framework: Next.js (auto-detected)
+   - Root Directory: `./` (keep as root)
+   - Build Command: Auto-detected
+   - Output Directory: Auto-detected
 
-4. **Configure Build Settings**:
-   - Framework Preset: **Next.js**
-   - Root Directory: `frontend`
-   - Build Command: `npm run build` (auto-detected)
-   - Output Directory: `.next` (auto-detected)
+### Step 3: Add Environment Variables
 
-5. **Environment Variables**:
-   Add this variable:
-   ```
-   NEXT_PUBLIC_API_URL=https://your-backend-url.railway.app
-   ```
-   (You'll update this after deploying backend)
+In Vercel Dashboard → Settings → Environment Variables:
 
-6. **Deploy**:
-   - Click "Deploy"
-   - Wait 2-3 minutes
-   - Get your live URL: `https://aegis-ai-xxx.vercel.app`
+| Variable | Value | Type |
+|----------|-------|------|
+| `MONGODB_URL` | `mongodb+srv://...` | Secret |
+| `OPENROUTER_API_KEY` | `sk-or-v1-...` | Secret |
+| `OPENROUTER_MODEL` | `anthropic/claude-3.5-sonnet` | Plain |
+| `NEXT_PUBLIC_API_URL` | `/api` | Plain |
 
-### Option 2: Vercel CLI
+**Important**: `NEXT_PUBLIC_API_URL` should be `/api` (relative path) since backend is on same domain!
+
+### Step 4: Deploy!
+
+Click **Deploy** and wait 2-3 minutes.
+
+---
+
+## 📁 How It Works
+
+### Architecture
+
+```
+your-app.vercel.app/
+├── /                    → Next.js Frontend
+├── /analysis            → Next.js Pages
+├── /api/v1/analysis     → FastAPI Backend (Serverless)
+└── /api/v1/history      → FastAPI Backend (Serverless)
+```
+
+### Routing
+
+- **Frontend**: `vercel.json` routes `/` to Next.js
+- **Backend**: `vercel.json` routes `/api/*` to Python serverless function
+- **Same Domain**: No CORS issues! 🎉
+
+### Files Created
+
+```
+aegis-ai/
+├── api/
+│   └── index.py          # Serverless function entry point
+├── vercel.json           # Deployment configuration
+├── frontend/             # Next.js app
+└── backend/              # FastAPI app
+```
+
+---
+
+## ⚙️ Configuration Details
+
+### vercel.json
+
+```json
+{
+  "builds": [
+    { "src": "frontend/package.json", "use": "@vercel/next" },
+    { "src": "api/index.py", "use": "@vercel/python" }
+  ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "api/index.py" },
+    { "src": "/(.*)", "dest": "frontend/$1" }
+  ]
+}
+```
+
+### api/index.py
+
+```python
+from app.main import app
+handler = app  # Vercel serverless handler
+```
+
+---
+
+## 🔧 Update Frontend API URL
+
+Since backend is on same domain, update frontend to use relative URLs:
+
+```typescript
+// frontend/src/lib/api.ts
+const API_URL = process.env.NEXT_PUBLIC_API_URL || '/api';
+```
+
+This is already configured! ✅
+
+---
+
+## ✅ Advantages of Vercel for Both
+
+### Pros
+- ✅ **Single Platform**: One deployment, one domain
+- ✅ **No CORS Issues**: Same origin
+- ✅ **Free Tier**: Generous limits
+- ✅ **Auto HTTPS**: Automatic SSL
+- ✅ **Global CDN**: Fast worldwide
+- ✅ **Easy Setup**: Minimal configuration
+
+### Cons
+- ⚠️ **Serverless Limits**: 
+  - 10s timeout (Hobby plan)
+  - 50s timeout (Pro plan)
+  - Cold starts (~1-2s)
+- ⚠️ **Not Ideal for Long Tasks**: Analysis might timeout
+- ⚠️ **Stateless**: No persistent connections
+
+---
+
+## 🎯 Recommended Approach
+
+### Option 1: All Vercel (Simplest)
+**Best for**: Quick portfolio deployment, demos
+
+```
+Frontend: Vercel
+Backend: Vercel Serverless
+Database: MongoDB Atlas
+```
+
+**Pros**: Easiest setup, single platform
+**Cons**: 10s timeout might be tight for analysis
+
+### Option 2: Hybrid (Recommended)
+**Best for**: Production-ready, reliable
+
+```
+Frontend: Vercel
+Backend: Railway (always-on)
+Database: MongoDB Atlas
+```
+
+**Pros**: No timeouts, better for long tasks
+**Cons**: Need to manage CORS, two platforms
+
+---
+
+## 🚀 Deploy Commands
+
+### Deploy to Vercel (All-in-One)
 
 ```bash
 # Install Vercel CLI
@@ -38,179 +176,84 @@ npm install -g vercel
 # Login
 vercel login
 
-# Deploy from project root
+# Deploy
 cd /Users/pusri/Documents/last\ ai\ project/aegis-ai
-vercel
-
-# Follow prompts:
-# - Link to existing project? No
-# - Project name: aegis-ai
-# - Directory: ./frontend
-# - Override settings? No
-
-# Production deployment
 vercel --prod
+
+# Follow prompts - accept defaults
 ```
 
----
-
-## Configuration Details
-
-### Root Directory
-Set to: `frontend`
-
-This tells Vercel to build from the frontend folder.
-
-### Environment Variables
-
-Add in Vercel dashboard (Settings → Environment Variables):
-
-| Name | Value | Environment |
-|------|-------|-------------|
-| `NEXT_PUBLIC_API_URL` | `http://localhost:8000` | Development |
-| `NEXT_PUBLIC_API_URL` | `https://your-backend.railway.app` | Production |
-
-### Build Settings
-
-```json
-{
-  "buildCommand": "npm run build",
-  "outputDirectory": ".next",
-  "installCommand": "npm install",
-  "devCommand": "npm run dev"
-}
-```
-
----
-
-## Post-Deployment Steps
-
-### 1. Update Backend CORS
-
-After deployment, update backend CORS to allow your Vercel domain:
-
-```python
-# backend/app/main.py
-origins = [
-    "http://localhost:3000",
-    "https://aegis-ai-xxx.vercel.app",  # Add your Vercel URL
-]
-```
-
-### 2. Test Deployment
-
-Visit your Vercel URL and test:
-- ✅ Homepage loads
-- ✅ Create analysis (will fail until backend is deployed)
-- ✅ UI looks correct
-- ✅ No console errors
-
-### 3. Custom Domain (Optional)
-
-1. Go to Vercel dashboard → Settings → Domains
-2. Add your custom domain
-3. Update DNS records as instructed
-4. Wait for SSL certificate (automatic)
-
----
-
-## Automatic Deployments
-
-Vercel automatically deploys:
-- **Production**: Every push to `main` branch
-- **Preview**: Every pull request
-
-You'll get:
-- Unique URL for each deployment
-- Automatic HTTPS
-- Global CDN
-- Instant rollbacks
-
----
-
-## Troubleshooting
-
-### Build Fails
-
-**Error**: `Module not found`
-**Fix**: Make sure all dependencies are in `package.json`
+### Update Environment Variables
 
 ```bash
-cd frontend
-npm install
-git add package-lock.json
-git commit -m "chore: Update dependencies"
-git push
-```
+# Add secrets via CLI
+vercel env add MONGODB_URL production
+vercel env add OPENROUTER_API_KEY production
 
-### Environment Variables Not Working
-
-**Error**: API calls fail
-**Fix**: 
-1. Check variable name starts with `NEXT_PUBLIC_`
-2. Redeploy after adding variables
-3. Clear cache: Settings → Clear Cache
-
-### 404 on Routes
-
-**Error**: Direct URLs return 404
-**Fix**: Next.js App Router handles this automatically, but if issues persist:
-
-Create `vercel.json` in frontend:
-```json
-{
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/"
-    }
-  ]
-}
+# Or use dashboard (easier)
 ```
 
 ---
 
-## Monitoring
+## 🧪 Testing After Deployment
 
-### Vercel Dashboard
-
-Monitor your deployment:
-- **Analytics**: Page views, performance
-- **Logs**: Runtime logs
-- **Speed Insights**: Core Web Vitals
-- **Deployments**: History and rollbacks
-
-### Performance
-
-Vercel automatically optimizes:
-- ✅ Image optimization
-- ✅ Code splitting
-- ✅ Edge caching
-- ✅ Compression
+1. **Frontend**: Visit `https://your-app.vercel.app`
+2. **Backend Health**: Visit `https://your-app.vercel.app/api`
+3. **API Docs**: Visit `https://your-app.vercel.app/api/docs`
+4. **Create Analysis**: Test full flow
 
 ---
 
-## Cost
+## ⚡ Performance Optimization
 
-**Free Tier Includes**:
-- Unlimited deployments
-- 100GB bandwidth/month
-- Automatic HTTPS
-- Global CDN
-- Preview deployments
+### For Vercel Serverless
 
-Perfect for portfolio projects! 🎉
+1. **Reduce Dependencies**: Keep `requirements.txt` minimal
+2. **Optimize Imports**: Import only what you need
+3. **Cache Results**: Use Vercel Edge Cache
+4. **Async Operations**: Use background tasks (if possible)
 
----
+### If Timeouts Occur
 
-## Next Steps
+**Symptoms**: 504 Gateway Timeout after 10s
 
-1. ✅ Deploy frontend to Vercel
-2. ⏳ Deploy backend to Railway
-3. ⏳ Update `NEXT_PUBLIC_API_URL` in Vercel
-4. ⏳ Update CORS in backend
-5. ⏳ Test end-to-end functionality
+**Solutions**:
+1. Upgrade to Vercel Pro ($20/month) → 50s timeout
+2. Move to Railway for backend (always-on)
+3. Optimize agent execution time
+4. Use webhooks for long tasks
 
 ---
 
-**Ready to deploy?** Follow Option 1 above! 🚀
+## 📊 Cost Comparison
+
+### Vercel (All-in-One)
+- **Free**: 100GB bandwidth, 100 serverless invocations
+- **Pro**: $20/month - 1TB bandwidth, unlimited invocations
+
+### Vercel + Railway (Hybrid)
+- **Vercel Free**: Frontend only
+- **Railway**: $5/month - 500 hours (always-on backend)
+- **Total**: $5/month
+
+---
+
+## 🎯 My Recommendation
+
+**For Portfolio (Now)**:
+→ Deploy **ALL to Vercel** (easiest, fastest)
+
+**For Production (Later)**:
+→ Frontend: Vercel, Backend: Railway
+
+---
+
+## 🚀 Next Steps
+
+1. ✅ Push code to GitHub
+2. ✅ Deploy to Vercel
+3. ✅ Add environment variables
+4. ✅ Test deployment
+5. ✅ Update README with live URL
+
+**Ready to deploy?** Run the commands above! 🎉
