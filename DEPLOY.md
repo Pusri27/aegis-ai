@@ -1,108 +1,111 @@
-# 🚀 DEPLOY - GRATIS 100% (No Credit Card!)
+# 🚀 DEPLOY - Cloudflare + Koyeb (GRATIS!)
 
-## BACKEND → PythonAnywhere (Free Forever)
+## BACKEND → Koyeb (Free, No Credit Card)
 
-### 1. Buka PythonAnywhere
-https://www.pythonanywhere.com
+### 1. Buka Koyeb
+https://www.koyeb.com
 
-Klik **"Start running Python online in less than a minute!"**
+Klik **"Start Building"**
 
-Klik **"Create a Beginner account"** (FREE)
+Login dengan **GitHub**
 
-### 2. Buat Account
-- Username: (pilih username kamu)
-- Email: (email kamu)
-- Password: (buat password)
+### 2. Create Service
+- Klik **"Create Web Service"**
+- Pilih **"GitHub"**
+- Pilih repository **"aegis-ai"**
+- Klik **"Next"**
 
-Klik **"Register"**
+### 3. Configure
+**Builder**: Docker
 
-### 3. Open Console
-Setelah login, klik tab **"Consoles"**
+**Dockerfile path**: Biarkan kosong
 
-Klik **"Bash"**
-
-### 4. Clone Repository
-Di console, ketik:
-```bash
-git clone https://github.com/Pusri27/aegis-ai.git
-cd aegis-ai/backend
-pip3 install --user -r requirements.txt
+**Build command**: 
+```
+cd backend && pip install -r requirements.txt
 ```
 
-### 5. Setup Web App
-- Klik tab **"Web"**
-- Klik **"Add a new web app"**
-- Domain: `yourusername.pythonanywhere.com` (gratis)
-- Python version: **Python 3.10**
-- Framework: **Manual configuration**
-
-### 6. Configure WSGI
-Klik link **"WSGI configuration file"**
-
-Hapus semua isi file, ganti dengan:
-```python
-import sys
-import os
-
-path = '/home/yourusername/aegis-ai/backend'
-if path not in sys.path:
-    sys.path.append(path)
-
-os.environ['MONGODB_URL'] = 'mongodb+srv://aegis_admin:POEFXDo5o20FFE9l@aidecision.kyppexv.mongodb.net/aegis_ai?retryWrites=true&w=majority&appName=AIDecision'
-os.environ['OPENROUTER_API_KEY'] = 'YOUR_API_KEY_HERE'
-os.environ['OPENROUTER_MODEL'] = 'anthropic/claude-3.5-sonnet'
-
-from app.main import app as application
+**Run command**:
+```
+cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
 ```
 
-Ganti `yourusername` dengan username kamu!
-Ganti `YOUR_API_KEY_HERE` dengan API key dari `backend/.env`!
+**Port**: `8000`
 
-Save (Ctrl+S)
+**Instance type**: **Nano** (Free)
 
-### 7. Reload
-Klik tombol **"Reload"** (hijau)
+### 4. Environment Variables
+Tambahkan 3 variables:
 
-Selesai! Backend live di: `https://yourusername.pythonanywhere.com`
+```
+MONGODB_URL
+mongodb+srv://aegis_admin:POEFXDo5o20FFE9l@aidecision.kyppexv.mongodb.net/aegis_ai?retryWrites=true&w=majority&appName=AIDecision
+
+OPENROUTER_API_KEY
+(copy dari backend/.env)
+
+OPENROUTER_MODEL
+anthropic/claude-3.5-sonnet
+```
+
+### 5. Deploy
+Klik **"Deploy"**
+
+Tunggu 5 menit
+
+Dapat URL: `https://aegis-ai-backend-xxx.koyeb.app`
 
 ---
 
-## FRONTEND → Vercel (Free)
+## FRONTEND → Cloudflare Pages (Free)
 
-### 1. Buka Vercel
-https://vercel.com
+### 1. Buka Cloudflare
+https://pages.cloudflare.com
 
-Login dengan GitHub
+Login/Sign up (gratis)
 
-### 2. New Project
-- Klik **"Add New"** → **"Project"**
-- Pilih **"aegis-ai"**
-- Klik **"Import"**
+### 2. Create Project
+- Klik **"Create a project"**
+- Klik **"Connect to Git"**
+- Pilih **GitHub**
+- Pilih repository **"aegis-ai"**
 
-### 3. Configure
-**Root Directory**: `frontend`
+### 3. Configure Build
+**Project name**: `aegis-ai`
 
-**Environment Variables**:
+**Production branch**: `main`
+
+**Build command**: `npm run build`
+
+**Build output directory**: `.next`
+
+**Root directory**: `frontend`
+
+### 4. Environment Variables
+Klik **"Add variable"**:
+
 ```
 NEXT_PUBLIC_API_URL
-https://yourusername.pythonanywhere.com/api/v1
+https://aegis-ai-backend-xxx.koyeb.app/api/v1
 ```
-(Ganti `yourusername` dengan username PythonAnywhere kamu!)
+(Ganti dengan URL Koyeb kamu!)
 
-### 4. Deploy
-Klik **"Deploy"**
+### 5. Deploy
+Klik **"Save and Deploy"**
+
+Tunggu 3 menit
 
 ---
 
 ## ✅ SELESAI - 100% GRATIS!
 
-Frontend: `https://aegis-ai.vercel.app`
-Backend: `https://yourusername.pythonanywhere.com`
+Frontend: `https://aegis-ai.pages.dev`
+Backend: `https://aegis-ai-backend-xxx.koyeb.app`
 
-⚠️ **PythonAnywhere Free Limits**:
-- 1 web app
-- 512MB storage
-- Always-on (no sleep!)
-- Perfect untuk portfolio!
+✨ **Koyeb Free**:
+- 512MB RAM
+- No credit card
+- Always-on
+- Auto-deploy
 
-🎉 LIVE SELAMANYA!
+🎉 LIVE!
