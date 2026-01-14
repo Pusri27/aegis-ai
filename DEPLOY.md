@@ -1,95 +1,84 @@
-# 🚀 Deploy ke Vercel - Frontend + Backend
+# 🚀 DEPLOY - Cara Paling Gampang
 
-## STEP 1: Deploy Backend (API)
+## BACKEND → Railway (5 Menit)
+
+### 1. Buka Railway
+https://railway.app
+
+Klik **"Login with GitHub"**
+
+### 2. New Project
+- Klik **"New Project"**
+- Klik **"Deploy from GitHub repo"**
+- Pilih **"aegis-ai"**
+
+### 3. Add Variables
+Klik tab **"Variables"**, tambahkan 3 ini:
+
+```
+MONGODB_URL
+mongodb+srv://aegis_admin:POEFXDo5o20FFE9l@aidecision.kyppexv.mongodb.net/aegis_ai?retryWrites=true&w=majority&appName=AIDecision
+
+OPENROUTER_API_KEY
+(copy dari backend/.env kamu)
+
+OPENROUTER_MODEL
+anthropic/claude-3.5-sonnet
+```
+
+### 4. Settings
+Klik tab **"Settings"**:
+
+**Root Directory**: Ketik `backend`
+
+**Start Command**: Ketik ini:
+```
+uvicorn app.main:app --host 0.0.0.0 --port $PORT
+```
+
+### 5. Deploy
+Klik **"Deploy"**
+
+Tunggu 2-3 menit. Selesai!
+
+Kamu dapat URL: `https://aegis-ai-production.up.railway.app`
+
+---
+
+## FRONTEND → Vercel (3 Menit)
 
 ### 1. Buka Vercel
-- Go to: https://vercel.com
-- Login dengan GitHub
+https://vercel.com
 
-### 2. New Project untuk Backend
-- Klik "Add New..." → "Project"
-- Pilih repository "aegis-ai"
-- Klik "Import"
+Login dengan GitHub
 
-### 3. Configure Backend
+### 2. New Project
+- Klik **"Add New"** → **"Project"**
+- Pilih **"aegis-ai"**
+- Klik **"Import"**
 
-**PENTING**: Di bagian "Configure Project", klik **"Edit"** atau scroll ke bawah
+### 3. Configure
+**Root Directory**: Ketik `frontend`
 
-**Project Name**: `aegis-ai-backend`
-
-**Root Directory**: Kosongkan (atau ketik `.`)
-
-**Framework Preset**: Pilih **"Other"** (PENTING!)
-
-**Build Settings**: Klik "Override" dan:
-- Build Command: Kosongkan
-- Output Directory: Kosongkan  
-- Install Command: Kosongkan
-
-(Vercel akan auto-detect Python dan `requirements.txt`)
-
-### 4. Environment Variables (PENTING!)
-
-Tambahkan 3 variables:
-
+**Environment Variables**: Tambahkan 1 variable:
 ```
-MONGODB_URL = mongodb+srv://aegis_admin:POEFXDo5o20FFE9l@aidecision.kyppexv.mongodb.net/aegis_ai?retryWrites=true&w=majority&appName=AIDecision
-
-OPENROUTER_API_KEY = (copy dari backend/.env kamu)
-
-OPENROUTER_MODEL = anthropic/claude-3.5-sonnet
+NEXT_PUBLIC_API_URL
+https://aegis-ai-production.up.railway.app/api/v1
 ```
+(Ganti dengan URL Railway kamu!)
 
-### 5. Deploy Backend
-- Klik "Deploy"
-- Tunggu 2-3 menit
-- Dapat URL: `https://aegis-ai-backend.vercel.app`
+### 4. Deploy
+Klik **"Deploy"**
+
+Tunggu 2 menit. Selesai!
 
 ---
 
-## STEP 2: Deploy Frontend
+## ✅ SELESAI!
 
-### 1. New Project untuk Frontend
-- Klik "Add New..." → "Project"
-- Pilih repository "aegis-ai" lagi
-- Klik "Import"
+Frontend: `https://aegis-ai.vercel.app`
+Backend: `https://aegis-ai-production.up.railway.app`
 
-### 2. Configure Frontend
+Buka frontend URL dan test!
 
-**Project Name**: `aegis-ai`
-
-**Root Directory**: `frontend`
-
-**Framework Preset**: Next.js
-
-### 3. Environment Variables
-
-Tambahkan 1 variable:
-
-```
-NEXT_PUBLIC_API_URL = https://aegis-ai-backend.vercel.app/api/v1
-```
-(Ganti dengan URL backend dari STEP 1!)
-
-### 4. Deploy Frontend
-- Klik "Deploy"
-- Tunggu 2-3 menit
-- Dapat URL: `https://aegis-ai.vercel.app`
-
----
-
-## ✅ Selesai!
-
-Sekarang:
-- ✅ Frontend: `https://aegis-ai.vercel.app`
-- ✅ Backend: `https://aegis-ai-backend.vercel.app`
-- ✅ Keduanya LIVE 24/7!
-
-## Test
-1. Buka frontend URL
-2. Create analysis
-3. Harus berfungsi!
-
-⚠️ **Catatan**: Vercel free tier = 10 detik timeout. Kalau analysis timeout, upgrade ke Pro atau pindah backend ke Railway.
-
-🎉 Project LIVE!
+🎉 LIVE!
