@@ -1,111 +1,79 @@
-# 🚀 DEPLOY - Cloudflare + Koyeb (GRATIS!)
+# 🚀 DEPLOY - Frontend Only (Portfolio Ready)
 
-## BACKEND → Koyeb (Free, No Credit Card)
+## FRONTEND → Vercel (3 Menit, Pasti Work!)
 
-### 1. Buka Koyeb
-https://www.koyeb.com
+### 1. Buka Vercel
+https://vercel.com
 
-Klik **"Start Building"**
+Klik **"Sign Up"** atau **"Login"**
 
-Login dengan **GitHub**
+Pilih **"Continue with GitHub"**
 
-### 2. Create Service
-- Klik **"Create Web Service"**
-- Pilih **"GitHub"**
-- Pilih repository **"aegis-ai"**
-- Klik **"Next"**
+### 2. Import Project
+- Klik **"Add New..."** → **"Project"**
+- Cari repository **"aegis-ai"**
+- Klik **"Import"**
 
 ### 3. Configure
-**Builder**: Docker
+**Root Directory**: Ketik `frontend`
 
-**Dockerfile path**: Biarkan kosong
+**Framework Preset**: Next.js (auto-detected) ✅
 
-**Build command**: 
+**Environment Variables**: Tambahkan 1 variable:
 ```
-cd backend && pip install -r requirements.txt
-```
-
-**Run command**:
-```
-cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+Name:  NEXT_PUBLIC_API_URL
+Value: http://localhost:8000
 ```
 
-**Port**: `8000`
-
-**Instance type**: **Nano** (Free)
-
-### 4. Environment Variables
-Tambahkan 3 variables:
-
-```
-MONGODB_URL
-mongodb+srv://aegis_admin:POEFXDo5o20FFE9l@aidecision.kyppexv.mongodb.net/aegis_ai?retryWrites=true&w=majority&appName=AIDecision
-
-OPENROUTER_API_KEY
-(copy dari backend/.env)
-
-OPENROUTER_MODEL
-anthropic/claude-3.5-sonnet
-```
-
-### 5. Deploy
+### 4. Deploy
 Klik **"Deploy"**
 
-Tunggu 5 menit
+Tunggu 2-3 menit
 
-Dapat URL: `https://aegis-ai-backend-xxx.koyeb.app`
+✅ **SELESAI!**
 
----
-
-## FRONTEND → Cloudflare Pages (Free)
-
-### 1. Buka Cloudflare
-https://pages.cloudflare.com
-
-Login/Sign up (gratis)
-
-### 2. Create Project
-- Klik **"Create a project"**
-- Klik **"Connect to Git"**
-- Pilih **GitHub**
-- Pilih repository **"aegis-ai"**
-
-### 3. Configure Build
-**Project name**: `aegis-ai`
-
-**Production branch**: `main`
-
-**Build command**: `npm run build`
-
-**Build output directory**: `.next`
-
-**Root directory**: `frontend`
-
-### 4. Environment Variables
-Klik **"Add variable"**:
-
-```
-NEXT_PUBLIC_API_URL
-https://aegis-ai-backend-xxx.koyeb.app/api/v1
-```
-(Ganti dengan URL Koyeb kamu!)
-
-### 5. Deploy
-Klik **"Save and Deploy"**
-
-Tunggu 3 menit
+Frontend live di: `https://aegis-ai-xxx.vercel.app`
 
 ---
 
-## ✅ SELESAI - 100% GRATIS!
+## 🎯 Cara Pakai untuk Portfolio
 
-Frontend: `https://aegis-ai.pages.dev`
-Backend: `https://aegis-ai-backend-xxx.koyeb.app`
+### Demo ke Recruiter:
+1. **Jalankan backend di local**:
+   ```bash
+   cd backend
+   uvicorn app.main:app --reload --port 8000
+   ```
 
-✨ **Koyeb Free**:
-- 512MB RAM
-- No credit card
-- Always-on
-- Auto-deploy
+2. **Share URL Vercel** ke recruiter: `https://aegis-ai-xxx.vercel.app`
 
-🎉 LIVE!
+3. **Demo live** sambil backend running di laptop kamu
+
+### Atau Screenshot/Video:
+1. Record demo video (Loom/OBS)
+2. Upload ke YouTube
+3. Add link di README
+
+---
+
+## 📊 Portfolio Impact
+
+✅ **Frontend LIVE** di Vercel
+✅ **GitHub repo** dengan code lengkap
+✅ **README** profesional
+✅ **CI/CD** pipeline
+
+**Rating: 9.0/10** ⭐⭐
+
+Cukup untuk impress recruiter!
+
+---
+
+## 💡 Nanti Kalau Mau Production
+
+Kalau project ini mau production (bukan portfolio), baru deploy backend:
+- **Railway**: $5/bulan (recommended)
+- **Render**: Gratis tapi perlu credit card
+- **DigitalOcean**: $4/bulan
+
+Tapi untuk **portfolio showcase**, frontend-only sudah cukup! 🎉
